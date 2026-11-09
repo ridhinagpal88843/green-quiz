@@ -1,0 +1,915 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#10251d" />
+  <title>GreenQuiz — Sustainability Challenge</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --bg: #f4f7f1;
+      --surface: #ffffff;
+      --ink: #17271f;
+      --muted: #718078;
+      --green: #246b4b;
+      --green-dark: #174b35;
+      --lime: #d8f27a;
+      --line: #e6ece5;
+      --soft: #edf5ed;
+      --red: #b84b4b;
+      --shadow: 0 20px 60px rgba(24, 57, 39, .09);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 8%, #e7f2e5 0, transparent 28%),
+        radial-gradient(circle at 95% 88%, #e9f1d9 0, transparent 25%),
+        var(--bg);
+      font-family: "DM Sans", sans-serif;
+    }
+
+    button { font: inherit; }
+
+    .shell {
+      width: min(1120px, calc(100% - 40px));
+      margin: auto;
+      padding: 26px 0 48px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font: 800 21px "Manrope", sans-serif;
+      letter-spacing: -.7px;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 39px;
+      height: 39px;
+      border-radius: 13px;
+      background: var(--green-dark);
+      color: var(--lime);
+      font-size: 20px;
+    }
+
+    .top-note {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      align-items: center;
+      gap: 34px;
+      margin-bottom: 35px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid #dce8d9;
+      border-radius: 99px;
+      background: #f8fbf6;
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 18px 0 14px;
+      font: 800 clamp(38px, 5vw, 62px)/1.06 "Manrope", sans-serif;
+      letter-spacing: -2.8px;
+    }
+
+    h1 span { color: var(--green); }
+
+    .hero p {
+      max-width: 570px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    .hero-art {
+      min-height: 220px;
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      border-radius: 28px;
+      background: linear-gradient(140deg, #173f30, #2e7550);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-art:before,
+    .hero-art:after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 50%;
+    }
+
+    .hero-art:before {
+      width: 260px;
+      height: 260px;
+    }
+
+    .hero-art:after {
+      width: 340px;
+      height: 340px;
+    }
+
+    .planet {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 125px;
+      height: 125px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #e2f58b, #9dc95a);
+      color: #204a32;
+      font-size: 58px;
+      box-shadow: 0 20px 50px #0c2b1c66;
+    }
+
+    .float-tag {
+      position: absolute;
+      z-index: 2;
+      padding: 10px 14px;
+      border-radius: 13px;
+      background: #ffffffed;
+      color: #28533b;
+      font-size: 12px;
+      font-weight: 700;
+      box-shadow: 0 8px 24px #0c2b1c25;
+    }
+
+    .tag-one { top: 28px; left: 25px; }
+    .tag-two { right: 20px; bottom: 30px; }
+
+    .quiz-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .side-card,
+    .quiz-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .side-card { padding: 23px; }
+
+    .side-title {
+      margin: 0 0 18px;
+      font: 700 14px "Manrope", sans-serif;
+    }
+
+    .stat {
+      padding: 14px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .stat-value {
+      margin-top: 5px;
+      font: 800 25px "Manrope", sans-serif;
+    }
+
+    .topic-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 9px;
+    }
+
+    .topic {
+      padding: 7px 9px;
+      border-radius: 8px;
+      background: var(--soft);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .quiz-card {
+      min-height: 440px;
+      padding: 30px;
+    }
+
+    .quiz-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 18px;
+    }
+
+    .question-count {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .score-pill {
+      padding: 8px 12px;
+      border-radius: 99px;
+      background: #f1f6e8;
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .progress-track {
+      height: 7px;
+      overflow: hidden;
+      border-radius: 99px;
+      background: #edf1ec;
+      margin-bottom: 30px;
+    }
+
+    .progress-fill {
+      width: 0;
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #2d8057, #a8cf58);
+      transition: width .35s ease;
+    }
+
+    .question-topic {
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 10px 0 22px;
+      font: 750 clamp(21px, 3vw, 28px)/1.35 "Manrope", sans-serif;
+      letter-spacing: -.8px;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .option {
+      min-height: 65px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 15px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: #fff;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .option:hover:not(:disabled) {
+      border-color: #8ab69a;
+      background: #f8fcf7;
+      transform: translateY(-1px);
+    }
+
+    .option:disabled { cursor: default; }
+
+    .option-letter {
+      flex: 0 0 30px;
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      background: #f0f4ef;
+      color: #65746a;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .option.correct {
+      border-color: #72b58a;
+      background: #eff9f0;
+    }
+
+    .option.correct .option-letter {
+      background: #d7efdc;
+      color: #236b3c;
+    }
+
+    .option.wrong {
+      border-color: #e2a0a0;
+      background: #fff4f3;
+    }
+
+    .option.wrong .option-letter {
+      background: #f8dddd;
+      color: var(--red);
+    }
+
+    .feedback {
+      display: none;
+      margin-top: 17px;
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .feedback.show { display: block; }
+    .feedback.good { background: #eff8ef; color: #28643c; }
+    .feedback.bad { background: #fff2f0; color: #934747; }
+
+    .quiz-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      border: 0;
+      border-radius: 11px;
+      padding: 13px 20px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .primary-btn {
+      background: var(--green-dark);
+      color: white;
+    }
+
+    .primary-btn:hover {
+      background: #236447;
+      transform: translateY(-1px);
+    }
+
+    .primary-btn:disabled {
+      opacity: .35;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .secondary-btn {
+      background: #edf4ed;
+      color: var(--green-dark);
+    }
+
+    .welcome,
+    .result {
+      display: flex;
+      min-height: 380px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .welcome-icon,
+    .result-icon {
+      display: grid;
+      place-items: center;
+      width: 75px;
+      height: 75px;
+      border-radius: 23px;
+      background: #eff6e8;
+      font-size: 34px;
+      margin-bottom: 17px;
+    }
+
+    .welcome h2,
+    .result h2 {
+      margin: 0 0 10px;
+      font-size: 30px;
+    }
+
+    .welcome p,
+    .result p {
+      max-width: 470px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 0 0 22px;
+    }
+
+    .result-score {
+      font: 800 56px "Manrope", sans-serif;
+      color: var(--green);
+      margin: 5px 0;
+    }
+
+    .result-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 8px 0 23px;
+    }
+
+    .result-meta span {
+      padding: 9px 12px;
+      border-radius: 10px;
+      background: #f1f6ee;
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    footer {
+      margin-top: 25px;
+      text-align: center;
+      color: #89958d;
+      font-size: 11px;
+    }
+
+    @media(max-width:760px) {
+      .shell {
+        width: min(100% - 26px, 600px);
+        padding-top: 18px;
+      }
+
+      header { margin-bottom: 30px; }
+      .top-note { display: none; }
+
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+
+      .hero-art { min-height: 170px; }
+
+      .quiz-layout { grid-template-columns: 1fr; }
+
+      .side-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 18px;
+      }
+
+      .side-title { grid-column: 1 / -1; }
+      .topic-wrap { grid-column: 1 / -1; }
+      .quiz-card { padding: 21px; }
+    }
+
+    @media(max-width:480px) {
+      h1 { letter-spacing: -1.8px; }
+      .options { grid-template-columns: 1fr; }
+
+      .quiz-top { align-items: flex-start; }
+
+      .quiz-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .quiz-actions .primary-btn { width: 100%; }
+      .hint { text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="shell">
+
+    <header>
+      <div class="brand">
+        <div class="brand-mark">✳</div>
+        greenquiz
+      </div>
+      <div class="top-note">Small knowledge. Big planetary impact.</div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow">🌱 Campus sustainability challenge</div>
+        <h1>How green is<br><span>your thinking?</span></h1>
+        <p>
+          Test what you know about our planet. Take a quick challenge
+          on climate, energy, water and waste — and pick up a few
+          planet-friendly ideas along the way.
+        </p>
+      </div>
+
+      <div class="hero-art" aria-label="Illustration of a green planet">
+        <div class="float-tag tag-one">🌍 Think sustainably</div>
+        <div class="planet">🌿</div>
+        <div class="float-tag tag-two">One choice at a time</div>
+      </div>
+    </section>
+
+    <section class="quiz-layout">
+
+      <aside class="side-card">
+        <h3 class="side-title">Your quiz dashboard</h3>
+
+        <div class="stat">
+          <div class="stat-label">Personal best</div>
+          <div class="stat-value" id="bestScore">—</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Questions in this quiz</div>
+          <div class="stat-value">10</div>
+        </div>
+
+        <div class="stat topic-wrap">
+          <div class="stat-label">Topics covered</div>
+          <div class="topic-list">
+            <span class="topic">Climate</span>
+            <span class="topic">Recycling</span>
+            <span class="topic">Energy</span>
+            <span class="topic">Water</span>
+            <span class="topic">Biodiversity</span>
+          </div>
+        </div>
+      </aside>
+
+      <section class="quiz-card" id="quizCard">
+
+        <!-- Welcome screen -->
+        <div class="welcome" id="welcomeScreen">
+          <div class="welcome-icon">🌎</div>
+          <h2>Ready to go green?</h2>
+          <p>
+            10 questions, four choices each, and instant explanations.
+            See how much you know — no pressure, just progress.
+          </p>
+          <button class="primary-btn" id="startBtn">
+            Start the challenge&nbsp; →
+          </button>
+        </div>
+
+        <!-- Question screen -->
+        <div id="questionScreen" hidden>
+
+          <div class="quiz-top">
+            <div class="question-count" id="questionCount">
+              QUESTION 01 / 10
+            </div>
+            <div class="score-pill" id="scorePill">✦ Score: 0</div>
+          </div>
+
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+
+          <div class="question-topic" id="questionTopic"></div>
+          <h2 id="questionText"></h2>
+
+          <div class="options" id="options"></div>
+
+          <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+
+          <div class="quiz-actions">
+            <span class="hint" id="hintText">
+              Choose the best answer to continue.
+            </span>
+            <button class="primary-btn" id="nextBtn" disabled>
+              Next question&nbsp; →
+            </button>
+          </div>
+        </div>
+
+        <!-- Result screen -->
+        <div class="result" id="resultScreen" hidden>
+          <div class="result-icon" id="resultIcon">🏆</div>
+          <h2 id="resultHeading">Challenge complete!</h2>
+          <div class="result-score" id="finalScore">0/10</div>
+          <p id="resultMessage"></p>
+
+          <div class="result-meta">
+            <span id="accuracyMeta">Accuracy: 0%</span>
+            <span id="bestMeta">Personal best: 0/10</span>
+          </div>
+
+          <button class="primary-btn" id="restartBtn">
+            Play again&nbsp; ↻
+          </button>
+        </div>
+
+      </section>
+    </section>
+
+    <footer>
+      GREENQUIZ · A student-led sustainability awareness concept ·
+      Your best score is saved on this device.
+    </footer>
+
+  </main>
+
+  <script>
+    // All quiz questions, choices, correct answers and explanations.
+    const questions = [
+      {
+        topic: "Climate change",
+        question: "Which gas is the biggest contributor to human-caused global warming?",
+        options: ["Oxygen", "Carbon dioxide", "Nitrogen", "Helium"],
+        answer: 1,
+        explanation: "Carbon dioxide (CO₂), mainly from burning fossil fuels and land-use changes, is the largest contributor to human-caused warming."
+      },
+      {
+        topic: "Waste & recycling",
+        question: "Which action is usually the best first step in reducing waste?",
+        options: ["Recycle everything", "Buy more bins", "Avoid unnecessary items", "Burn household waste"],
+        answer: 2,
+        explanation: "Refusing or reducing unnecessary purchases prevents waste before it is created. The waste hierarchy prioritises reduction."
+      },
+      {
+        topic: "Energy",
+        question: "Which bulb generally uses the least electricity for the same amount of light?",
+        options: ["Incandescent bulb", "Halogen bulb", "CFL bulb", "LED bulb"],
+        answer: 3,
+        explanation: "LEDs are highly energy-efficient and generally last much longer than incandescent and halogen bulbs."
+      },
+      {
+        topic: "Water conservation",
+        question: "What is a simple way to save water while brushing your teeth?",
+        options: ["Keep the tap running", "Use hot water only", "Turn off the tap while brushing", "Brush for less than five seconds"],
+        answer: 2,
+        explanation: "Turning off the tap while brushing avoids letting clean water run down the drain unnecessarily."
+      },
+      {
+        topic: "Biodiversity",
+        question: "What does biodiversity mean?",
+        options: ["The variety of life on Earth", "The number of buildings in a city", "Only the number of forests", "The amount of rainfall"],
+        answer: 0,
+        explanation: "Biodiversity includes the variety of plants, animals, fungi and microorganisms, as well as the ecosystems they form."
+      },
+      {
+        topic: "Waste & recycling",
+        question: "Which item is most suitable for a compost bin?",
+        options: ["Plastic wrapper", "Vegetable peels", "Glass bottle", "Aluminium foil"],
+        answer: 1,
+        explanation: "Fruit and vegetable scraps are organic materials that can break down into compost under suitable conditions."
+      },
+      {
+        topic: "Energy",
+        question: "Why should you switch off lights in an empty classroom?",
+        options: ["It makes the room colder", "It reduces electricity use", "It increases internet speed", "It cleans the air instantly"],
+        answer: 1,
+        explanation: "Switching off unnecessary lights reduces electricity demand and can lower the emissions associated with power generation."
+      },
+      {
+        topic: "Climate change",
+        question: "Which transport choice usually has the lowest emissions per person for a short campus trip?",
+        options: ["Walking", "Driving alone", "Taking a taxi alone", "Riding a motorcycle alone"],
+        answer: 0,
+        explanation: "Walking creates no direct transport emissions and is a great option for short, safe journeys."
+      },
+      {
+        topic: "Water conservation",
+        question: "What is rainwater harvesting?",
+        options: ["Making artificial rain", "Collecting and storing rainwater for later use", "Filtering seawater", "Pumping water from rivers"],
+        answer: 1,
+        explanation: "Rainwater harvesting collects rain from roofs or other surfaces so it can be stored and used where appropriate."
+      },
+      {
+        topic: "Biodiversity",
+        question: "Why are native plants useful in campus gardens?",
+        options: ["They always need more water", "They support local wildlife and pollinators", "They prevent all pests", "They cannot grow in soil"],
+        answer: 1,
+        explanation: "Native plants are adapted to local conditions and can provide food and habitat for local insects, birds and other wildlife."
+      }
+    ];
+
+    // The browser stores the user's best score on this device.
+    const bestKey = "greenquiz-best-score-v1";
+
+    let currentQuestion = 0;
+    let score = 0;
+    let answered = false;
+
+    // Shortcut for selecting HTML elements by their ID.
+    const $ = (id) => document.getElementById(id);
+
+    const bestScoreEl = $("bestScore");
+
+    // Read and display the saved personal best.
+    function readBestScore() {
+      const saved = Number(localStorage.getItem(bestKey) || 0);
+      bestScoreEl.textContent = `${saved}/10`;
+      return saved;
+    }
+
+    // Start or restart the quiz.
+    function startQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      answered = false;
+
+      $("welcomeScreen").hidden = true;
+      $("resultScreen").hidden = true;
+      $("questionScreen").hidden = false;
+
+      $("scorePill").textContent = "✦ Score: 0";
+
+      showQuestion();
+    }
+
+    // Display the current question and its four options.
+    function showQuestion() {
+      answered = false;
+
+      const q = questions[currentQuestion];
+
+      $("questionCount").textContent =
+        `QUESTION ${String(currentQuestion + 1).padStart(2, "0")} / ${questions.length}`;
+
+      $("progressFill").style.width =
+        `${(currentQuestion / questions.length) * 100}%`;
+
+      $("questionTopic").textContent = q.topic;
+      $("questionText").textContent = q.question;
+
+      $("feedback").className = "feedback";
+      $("feedback").textContent = "";
+
+      $("hintText").textContent = "Choose the best answer to continue.";
+      $("nextBtn").disabled = true;
+
+      $("nextBtn").textContent =
+        currentQuestion === questions.length - 1
+          ? "See my result →"
+          : "Next question →";
+
+      const letters = ["A", "B", "C", "D"];
+      const optionsBox = $("options");
+
+      // Clear options from the previous question.
+      optionsBox.innerHTML = "";
+
+      q.options.forEach((option, index) => {
+        const button = document.createElement("button");
+
+        button.className = "option";
+        button.type = "button";
+
+        button.innerHTML =
+          `<span class="option-letter">${letters[index]}</span><span></span>`;
+
+        button.querySelector("span:last-child").textContent = option;
+
+        button.addEventListener("click", () => chooseAnswer(index));
+
+        optionsBox.appendChild(button);
+      });
+    }
+
+    // Check the selected answer and show instant feedback.
+    function chooseAnswer(selectedIndex) {
+      // Prevent users from answering the same question twice.
+      if (answered) return;
+
+      answered = true;
+
+      const q = questions[currentQuestion];
+
+      const buttons = [
+        ...$("options").querySelectorAll(".option")
+      ];
+
+      buttons.forEach((button, index) => {
+        button.disabled = true;
+
+        if (index === q.answer) {
+          button.classList.add("correct");
+        }
+
+        if (index === selectedIndex && selectedIndex !== q.answer) {
+          button.classList.add("wrong");
+        }
+      });
+
+      const feedback = $("feedback");
+
+      if (selectedIndex === q.answer) {
+        score++;
+
+        feedback.className = "feedback show good";
+        feedback.textContent = `✓ Correct! ${q.explanation}`;
+      } else {
+        feedback.className = "feedback show bad";
+        feedback.textContent = `Not quite. ${q.explanation}`;
+      }
+
+      $("scorePill").textContent = `✦ Score: ${score}`;
+      $("hintText").textContent = "Answer locked in — ready when you are.";
+
+      $("nextBtn").disabled = false;
+
+      $("progressFill").style.width =
+        `${((currentQuestion + 1) / questions.length) * 100}%`;
+    }
+
+    // Display the final score and save the best score.
+    function showResults() {
+      $("questionScreen").hidden = true;
+      $("resultScreen").hidden = false;
+
+      const previousBest = readBestScore();
+      const newBest = Math.max(previousBest, score);
+
+      localStorage.setItem(bestKey, String(newBest));
+
+      bestScoreEl.textContent = `${newBest}/10`;
+
+      $("finalScore").textContent = `${score}/10`;
+      $("accuracyMeta").textContent = `Accuracy: ${score * 10}%`;
+      $("bestMeta").textContent = `Personal best: ${newBest}/10`;
+
+      let heading, message, icon;
+
+      if (score >= 9) {
+        heading = "Planet protector!";
+        icon = "🌟";
+        message = "Excellent work. You have a strong grasp of sustainability basics — keep turning that knowledge into everyday action.";
+      } else if (score >= 7) {
+        heading = "Green thinker!";
+        icon = "🌿";
+        message = "Really good effort. You know your way around many planet-friendly choices. A little revision will make you even stronger.";
+      } else if (score >= 5) {
+        heading = "Growing greener!";
+        icon = "🌱";
+        message = "A solid start. Explore the explanations, learn a few new habits, and give the challenge another try.";
+      } else {
+        heading = "Every expert starts somewhere!";
+        icon = "🌍";
+        message = "No worries — this is how learning begins. Read the explanations, try one small sustainable action today, and come back for another round.";
+      }
+
+      $("resultHeading").textContent = heading;
+      $("resultMessage").textContent = message;
+      $("resultIcon").textContent = icon;
+    }
+
+    // Start button.
+    $("startBtn").addEventListener("click", startQuiz);
+
+    // Next question button.
+    $("nextBtn").addEventListener("click", () => {
+      if (!answered) return;
+
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        showQuestion();
+      } else {
+        showResults();
+      }
+    });
+
+    // Restart button.
+    $("restartBtn").addEventListener("click", startQuiz);
+
+    // Show the saved best score when the page loads.
+    readBestScore();
+  </script>
+</body>
+</html>
